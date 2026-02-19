@@ -14,6 +14,7 @@ export const DataVehiculos = () => {
             <Column field="placa" header="Placa"></Column>
             <Column field="marca" header="Marca"></Column>
             <Column field="modelo" header="Modelo"></Column>
+            <Column field="operaciones" header="Operaciones"></Column>
         </DataTable>
     );
 };
