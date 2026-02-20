@@ -2,9 +2,9 @@ import { useForm, Controller } from "react-hook-form";
 import { InputText } from "primereact/inputtext";
 import { Button } from "primereact/button";
 
-export const FormCrearVehiculos = () => {
+export const FormCrearVehiculos = ({onSuccess, onHide}) => {
     
-    const { control, handleSubmit, formState: { errors } } = useForm({
+    const { control, handleSubmit, formState: { errors }, reset } = useForm({
         defaultValues: {
             pr_placa: '',
             pr_marca: '',
@@ -22,8 +22,18 @@ export const FormCrearVehiculos = () => {
             body: JSON.stringify(data)
         });
             const result = await response.json();
-            console.log('Resultado de la data: ', data);
-            console.log('Mensaje de exito: ', result);
+            console.log("Contenido de la data: ", data);
+            console.log("Respuesta del servidor:", result);
+
+            if (result.success) {
+                reset(); 
+                if (onSuccess) {
+                    onSuccess();
+                } 
+                if (onHide) onHide();
+            } else {
+                console.error('Error del servidor: ', result.message);
+            }
         } catch (error) {
             console.error('Error: ', error);
         }
@@ -48,7 +58,7 @@ export const FormCrearVehiculos = () => {
                             />
                         )}
                     />
-                    {errors.pr_placa && <small className="p-error">{errors.placa.message}</small>}
+                    {errors.pr_placa && <small className="p-error">{errors.pr_placa.message}</small>}
                 </div>
 
                 {/* Campo Marca */}
@@ -66,6 +76,7 @@ export const FormCrearVehiculos = () => {
                             />
                         )}
                     />
+                    {errors.pr_marca && <small className="p-error">{errors.pr_marca.message}</small>}
                 </div>
 
                 {/* Campo Modelo */}
@@ -83,6 +94,7 @@ export const FormCrearVehiculos = () => {
                             />
                         )}
                     />
+                    {errors.pr_modelo && <small className="p-error">{errors.pr_modelo.message}</small>}
                 </div>
 
                 <Button type="submit" label="Registrar Vehículo" icon="pi pi-check" severity="info" className="mt-2" />

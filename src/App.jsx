@@ -4,12 +4,25 @@ import { Dialog } from 'primereact/dialog';
 import './App.css';
 import { FormCrearVehiculos } from './components/forms/formCrearVehiculos';
 import { DataVehiculos } from './components/datagrids/DataVehiculos';
-import { useState } from 'react';
+import { useState, useRef } from 'react';
 
 function App() {
 
   const [vistaVehiculos, setVistaVehiculos] = useState('none');
   const [visibleCrearVehiculo, setVisibleCrearVehiculo] = useState(false);
+
+  // Hacemos referencia a la tabla del DataVehiculos.jsx
+  const tablaRef = useRef();
+
+  const manejarExitoInsercion = () => {
+    console.log("4. Ejecutando manejarExito en App.jsx");
+    if (tablaRef.current) {
+      console.log("5. Intentando refrescar tabla...");
+      tablaRef.current.refreshData(); 
+    }
+    console.log("6. Intentando cerrar modal...");
+    setVisibleCrearVehiculo(false); // 
+  };
 
   return (
     <>
@@ -43,7 +56,7 @@ function App() {
             />
 
             {/* Datagrid para la muestra de vehiculos */}
-            <DataVehiculos />
+            <DataVehiculos ref={tablaRef}/>
 
             {/* Modal que muestra el formulario de crear vehiculo */}
             <Dialog 
@@ -52,7 +65,10 @@ function App() {
               style={{ width: '90vw', maxWidth: '450px' }} 
               onHide={() => setVisibleCrearVehiculo(false)} // Cierra al hacer clic fuera o en X
             >
-              <FormCrearVehiculos setVisible={setVisibleCrearVehiculo} />
+              <FormCrearVehiculos
+                onSuccess={manejarExitoInsercion}
+                onHide={() => setVisibleCrearVehiculo(false)}
+              />
             </Dialog>
           </div>
         )}
