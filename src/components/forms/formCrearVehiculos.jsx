@@ -6,14 +6,27 @@ export const FormCrearVehiculos = () => {
     
     const { control, handleSubmit, formState: { errors } } = useForm({
         defaultValues: {
-            placa: '',
-            marca: '',
-            modelo: ''
+            pr_placa: '',
+            pr_marca: '',
+            pr_modelo: ''
         }
     });
 
-    const onSubmit = (data) => {
-        console.log("Datos del vehículo:", data);
+    const onSubmit = async (data) => {
+        try {
+            const response = await fetch('http://localhost:3000/insertar-vehiculo', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(data)
+        });
+            const result = await response.json();
+            console.log('Resultado de la data: ', data);
+            console.log('Mensaje de exito: ', result);
+        } catch (error) {
+            console.error('Error: ', error);
+        }
     };
 
     return (
@@ -22,9 +35,9 @@ export const FormCrearVehiculos = () => {
                 
                 {/* Campo Placa */}
                 <div className="flex flex-column gap-2">
-                    <label htmlFor="placa" className="font-bold">Placa</label>
+                    <label htmlFor="pr_placa" className="font-bold">Placa</label>
                     <Controller
-                        name="placa"
+                        name="pr_placa"
                         control={control}
                         rules={{ required: 'La placa es obligatoria', maxLength: 20 }}
                         render={({ field, fieldState }) => (
@@ -35,14 +48,14 @@ export const FormCrearVehiculos = () => {
                             />
                         )}
                     />
-                    {errors.placa && <small className="p-error">{errors.placa.message}</small>}
+                    {errors.pr_placa && <small className="p-error">{errors.placa.message}</small>}
                 </div>
 
                 {/* Campo Marca */}
                 <div className="flex flex-column gap-2">
-                    <label htmlFor="marca" className="font-bold">Marca</label>
+                    <label htmlFor="pr_marca" className="font-bold">Marca</label>
                     <Controller
-                        name="marca"
+                        name="pr_marca"
                         control={control}
                         rules={{ required: 'La marca es obligatoria' }}
                         render={({ field, fieldState }) => (
@@ -57,9 +70,9 @@ export const FormCrearVehiculos = () => {
 
                 {/* Campo Modelo */}
                 <div className="flex flex-column gap-2">
-                    <label htmlFor="modelo" className="font-bold">Modelo</label>
+                    <label htmlFor="pr_modelo" className="font-bold">Modelo</label>
                     <Controller
-                        name="modelo"
+                        name="pr_modelo"
                         control={control}
                         rules={{ required: 'El modelo es obligatorio' }}
                         render={({ field, fieldState }) => (
