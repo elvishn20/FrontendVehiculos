@@ -1,6 +1,7 @@
 import { ButtonGroup } from 'primereact/buttongroup';
 import { Button } from 'primereact/button';
 import { Dialog } from 'primereact/dialog';
+import { Toast } from 'primereact/toast';
 import './App.css';
 import { FormCrearVehiculos } from './components/forms/formCrearVehiculos';
 import { DataVehiculos } from './components/datagrids/DataVehiculos';
@@ -10,22 +11,29 @@ function App() {
 
   const [vistaVehiculos, setVistaVehiculos] = useState('none');
   const [visibleCrearVehiculo, setVisibleCrearVehiculo] = useState(false);
-
+  const toast = useRef(null)
   // Hacemos referencia a la tabla del DataVehiculos.jsx
   const tablaRef = useRef();
 
-  const manejarExitoInsercion = () => {
-    console.log("4. Ejecutando manejarExito en App.jsx");
+  // Notificacion y refresh de la tabla, cuando se crea vehiculo.
+  const manejarExitoInsercion = (mensajeServidor) => {
+    toast.current.show({
+      severity: 'success',
+      summary: 'Éxito',
+      detail: mensajeServidor || 'Vehículo registrado correctamente',
+      life: 3000 // 
+    });
     if (tablaRef.current) {
-      console.log("5. Intentando refrescar tabla...");
       tablaRef.current.refreshData(); 
     }
-    console.log("6. Intentando cerrar modal...");
     setVisibleCrearVehiculo(false); // 
   };
 
+  
+
   return (
     <>
+      <Toast ref={toast}/>
       <h1 style={{textAlign: "center", marginTop: "2rem", marginBottom: "2rem"}}>Registro de Vehículos con Entradas y Salidas</h1>
       <div className="w-full px-4 mt-3">
         <ButtonGroup className="w-full flex">
@@ -66,7 +74,7 @@ function App() {
               onHide={() => setVisibleCrearVehiculo(false)} // Cierra al hacer clic fuera o en X
             >
               <FormCrearVehiculos
-                onSuccess={manejarExitoInsercion}
+                onSuccess={(msg) => manejarExitoInsercion(msg)}
                 onHide={() => setVisibleCrearVehiculo(false)}
               />
             </Dialog>

@@ -1,5 +1,6 @@
 import { DataTable } from "primereact/datatable";
 import { Column } from "primereact/column";
+import { Button } from "primereact/button";
 import { useEffect, useState, useImperativeHandle, forwardRef } from "react";
 
 export const DataVehiculos = forwardRef((props, ref) => {
@@ -39,13 +40,37 @@ export const DataVehiculos = forwardRef((props, ref) => {
         fetchVehiculos();
     }, []);
 
+    // Iconos para editar y eliminar
+    const botonesOperaciones = (rowData) => {
+        return (
+            <div className="flex gap-4">
+                <Button 
+                    icon="pi pi-pencil" 
+                    severity="warning" 
+                    rounded 
+                    outlined 
+                    onClick={() => console.log("Editando:", rowData)} 
+                    tooltip="Editar"
+                />
+                <Button 
+                    icon="pi pi-trash" 
+                    severity="danger" 
+                    rounded 
+                    outlined 
+                    onClick={() => console.log("Eliminando:", rowData)} 
+                    tooltip="Eliminar"
+                />
+            </div>
+        );
+    };
+
     return (
         <DataTable value={vehiculos} columnResizeMode="expand" resizableColumns showGridlines tableStyle={{ minWidth: '50rem' }}>
-            <Column field="id" header="Id"></Column>
+            <Column header="Id" body={(data, options) => options.rowIndex + 1}></Column>
             <Column field="placa" header="Placa"></Column>
             <Column field="marca" header="Marca"></Column>
             <Column field="modelo" header="Modelo"></Column>
-            <Column field="operaciones" header="Operaciones"></Column>
+            <Column header="Operaciones" body={botonesOperaciones}></Column>
         </DataTable>
     );
 });

@@ -28,9 +28,11 @@ export const FormCrearVehiculos = ({onSuccess, onHide}) => {
             if (result.success) {
                 reset(); 
                 if (onSuccess) {
-                    onSuccess();
+                    onSuccess(result.message);
                 } 
-                if (onHide) onHide();
+                if (onHide) {
+                    onHide();
+                }
             } else {
                 console.error('Error del servidor: ', result.message);
             }
