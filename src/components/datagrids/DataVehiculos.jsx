@@ -3,11 +3,13 @@ import { Column } from "primereact/column";
 import { Button } from "primereact/button";
 import { useEffect, useState, useImperativeHandle, forwardRef } from "react";
 
-export const DataVehiculos = forwardRef((props, ref) => {
+export const DataVehiculos = forwardRef(({onEdit}, ref) => {
     const [vehiculos, setVehiculos] = useState([]);
 
+    // Formateamos la data que se trae desde la base de datos
     const formatoData = data => {
         return data.map(item => ({
+            id: item.traer_vehiculos.fn_id,
             placa: item.traer_vehiculos.fn_placa,
             marca: item.traer_vehiculos.fn_marca,
             modelo: item.traer_vehiculos.fn_modelo
@@ -49,7 +51,7 @@ export const DataVehiculos = forwardRef((props, ref) => {
                     severity="warning" 
                     rounded 
                     outlined 
-                    onClick={() => console.log("Editando:", rowData)} 
+                    onClick={() => onEdit(rowData)} 
                     tooltip="Editar"
                 />
                 <Button 

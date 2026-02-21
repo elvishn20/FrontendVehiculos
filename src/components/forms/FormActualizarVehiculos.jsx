@@ -1,23 +1,37 @@
 import { useForm, Controller } from "react-hook-form";
 import { InputText } from "primereact/inputtext";
 import { Button } from "primereact/button";
+import { useEffect } from "react";
 
-export const FormCrearVehiculos = ({onSuccess, onHide}) => {
+export const FormActualizarVehiculos = ({onSuccess, onHide, vehiculo}) => {
     
     // Registro de la data al formulario
     const { control, handleSubmit, formState: { errors }, reset } = useForm({
         defaultValues: {
+            pr_id: '',
             pr_placa: '',
             pr_marca: '',
             pr_modelo: ''
         }
     });
 
+    // Cargamos los datos del campo para que esten en el formulario
+    useEffect(() => {
+        if (vehiculo) {
+            reset({
+                pr_id: vehiculo.id,
+                pr_placa: vehiculo.placa,
+                pr_marca: vehiculo.marca,
+                pr_modelo: vehiculo.modelo
+            });
+        };
+    }, [vehiculo, reset]);
+
     // Envio de los datos al backend
     const onSubmit = async (data) => {
         try {
-            const response = await fetch('http://localhost:3000/insertar-vehiculo', {
-            method: 'POST',
+            const response = await fetch('http://localhost:3000/editar-vehiculo', {
+            method: 'PUT',
             headers: {
                 'Content-Type': 'application/json'
             },
@@ -101,7 +115,7 @@ export const FormCrearVehiculos = ({onSuccess, onHide}) => {
                     {errors.pr_modelo && <small className="p-error">{errors.pr_modelo.message}</small>}
                 </div>
 
-                <Button type="submit" label="Registrar Vehículo" icon="pi pi-check" severity="info" className="mt-2" />
+                <Button type="submit" label="Editar Vehículo" icon="pi pi-check" severity="info" className="mt-2" />
             </form>
         </div>
     );

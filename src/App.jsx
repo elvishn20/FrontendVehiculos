@@ -4,6 +4,7 @@ import { Dialog } from 'primereact/dialog';
 import { Toast } from 'primereact/toast';
 import './App.css';
 import { FormCrearVehiculos } from './components/forms/formCrearVehiculos';
+import { FormActualizarVehiculos } from './components/forms/FormActualizarVehiculos';
 import { DataVehiculos } from './components/datagrids/DataVehiculos';
 import { useState, useRef } from 'react';
 
@@ -11,25 +12,29 @@ function App() {
 
   const [vistaVehiculos, setVistaVehiculos] = useState('none');
   const [visibleCrearVehiculo, setVisibleCrearVehiculo] = useState(false);
-  const toast = useRef(null)
-  // Hacemos referencia a la tabla del DataVehiculos.jsx
-  const tablaRef = useRef();
+  const [vehiculoAEditar, setVehiculoAEditar] = useState(null);
+  const [visibleActualizarVehiculo, setVisibleActualizarVehiculo] = useState(false);
+  const toast = useRef(null) 
+  const tablaRef = useRef(); // Hacemos referencia a la tabla del DataVehiculos.jsx
 
   // Notificacion y refresh de la tabla, cuando se crea vehiculo.
   const manejarExitoInsercion = (mensajeServidor) => {
     toast.current.show({
       severity: 'success',
       summary: 'Éxito',
-      detail: mensajeServidor || 'Vehículo registrado correctamente',
+      detail: mensajeServidor,
       life: 3000 // 
     });
     if (tablaRef.current) {
       tablaRef.current.refreshData(); 
     }
     setVisibleCrearVehiculo(false); // 
-  };
+  };  
 
-  
+  const abrirEdicion = (vehiculo) => {
+    setVehiculoAEditar(vehiculo);
+    setVisibleActualizarVehiculo(true);
+  }
 
   return (
     <>
@@ -64,7 +69,7 @@ function App() {
             />
 
             {/* Datagrid para la muestra de vehiculos */}
-            <DataVehiculos ref={tablaRef}/>
+            <DataVehiculos ref={tablaRef} onEdit={abrirEdicion}/>
 
             {/* Modal que muestra el formulario de crear vehiculo */}
             <Dialog 
@@ -76,6 +81,19 @@ function App() {
               <FormCrearVehiculos
                 onSuccess={(msg) => manejarExitoInsercion(msg)}
                 onHide={() => setVisibleCrearVehiculo(false)}
+              />
+            </Dialog>
+
+            {/* Modal que muestra el formulario para editar vehiculo */}
+            <Dialog 
+              header="Actualización de Vehículo"
+              visible={visibleActualizarVehiculo} 
+              style={{ width: '90vw', maxWidth: '450px' }} 
+              onHide={() => setVisibleActualizarVehiculo(false)}>
+              <FormActualizarVehiculos 
+                  vehiculo={vehiculoAEditar} 
+                  onSuccess={manejarExitoInsercion} 
+                  onHide={() => setVisibleActualizarVehiculo(false)}
               />
             </Dialog>
           </div>
