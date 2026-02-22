@@ -2,6 +2,7 @@ import { ButtonGroup } from 'primereact/buttongroup';
 import { Button } from 'primereact/button';
 import { Dialog } from 'primereact/dialog';
 import { Toast } from 'primereact/toast';
+import { ConfirmDialog, confirmDialog } from 'primereact/confirmdialog';
 import './App.css';
 import { FormCrearVehiculos } from './components/forms/formCrearVehiculos';
 import { FormActualizarVehiculos } from './components/forms/FormActualizarVehiculos';
@@ -23,22 +24,57 @@ function App() {
       severity: 'success',
       summary: 'Éxito',
       detail: mensajeServidor,
-      life: 3000 // 
+      life: 3000 
     });
     if (tablaRef.current) {
       tablaRef.current.refreshData(); 
     }
-    setVisibleCrearVehiculo(false); // 
+    setVisibleCrearVehiculo(false); 
   };  
 
+  // Levanta la modal de edicion de vehiculo
   const abrirEdicion = (vehiculo) => {
     setVehiculoAEditar(vehiculo);
     setVisibleActualizarVehiculo(true);
   }
 
+  // Levanta la modal para borrar vehiculo
+  const confirmarEliminacion = (id) => {
+    confirmDialog({
+      message: '¿Estás seguro de eliminar este vehículo?',
+      header: 'Confirmación de Eliminación',
+      icon: 'pi pi-exclamation-triangle',
+      acceptLabel: 'Sí', 
+      rejectLabel: 'No', 
+      acceptClassName: 'p-button-danger', 
+      accept: () => ejecutarEliminacion(id), 
+      reject: () => console.log('Eliminación cancelada')
+    });
+  };
+
+  // Ejecuta dicha eliminacion
+  const ejecutarEliminacion = async (id) => {
+    try {
+      const response = await fetch(`http://localhost:3000/eliminar-vehiculo/${id}`, {
+        method: 'DELETE'
+      });
+      const result = await response.json();
+
+      if (result.success) {
+        toast.current.show({ severity: 'success', summary: 'Eliminado', detail: result.message, life: 3000});
+        tablaRef.current.refreshData();
+      } else {
+        toast.current.show({ severity: 'error', summary: 'Error', detail: result.message});
+      }
+    } catch (error) {
+      console.error('Error al eliminar: ', error);
+    }
+  }
+
   return (
     <>
       <Toast ref={toast}/>
+      <ConfirmDialog />
       <h1 style={{textAlign: "center", marginTop: "2rem", marginBottom: "2rem"}}>Registro de Vehículos con Entradas y Salidas</h1>
       <div className="w-full px-4 mt-3">
         <ButtonGroup className="w-full flex">
@@ -69,7 +105,11 @@ function App() {
             />
 
             {/* Datagrid para la muestra de vehiculos */}
-            <DataVehiculos ref={tablaRef} onEdit={abrirEdicion}/>
+            <DataVehiculos 
+              ref={tablaRef} 
+              onEdit={abrirEdicion}
+              onDelete={confirmarEliminacion}
+            />
 
             {/* Modal que muestra el formulario de crear vehiculo */}
             <Dialog 

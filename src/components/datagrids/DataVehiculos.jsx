@@ -3,7 +3,7 @@ import { Column } from "primereact/column";
 import { Button } from "primereact/button";
 import { useEffect, useState, useImperativeHandle, forwardRef } from "react";
 
-export const DataVehiculos = forwardRef(({onEdit}, ref) => {
+export const DataVehiculos = forwardRef(({onEdit, onDelete}, ref) => {
     const [vehiculos, setVehiculos] = useState([]);
 
     // Formateamos la data que se trae desde la base de datos
@@ -59,7 +59,7 @@ export const DataVehiculos = forwardRef(({onEdit}, ref) => {
                     severity="danger" 
                     rounded 
                     outlined 
-                    onClick={() => console.log("Eliminando:", rowData)} 
+                    onClick={() => onDelete(rowData.id)} 
                     tooltip="Eliminar"
                 />
             </div>
