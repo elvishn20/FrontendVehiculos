@@ -121,6 +121,7 @@ function App() {
               <FormCrearVehiculos
                 onSuccess={(msg) => manejarExitoInsercion(msg)}
                 onHide={() => setVisibleCrearVehiculo(false)}
+                toast={toast}
               />
             </Dialog>
 
@@ -133,6 +134,7 @@ function App() {
               <FormActualizarVehiculos 
                   vehiculo={vehiculoAEditar} 
                   onSuccess={manejarExitoInsercion} 
+                  toast={toast}
                   onHide={() => setVisibleActualizarVehiculo(false)}
               />
             </Dialog>

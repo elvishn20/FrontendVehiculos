@@ -3,7 +3,7 @@ import { InputText } from "primereact/inputtext";
 import { Button } from "primereact/button";
 import { useEffect } from "react";
 
-export const FormActualizarVehiculos = ({onSuccess, onHide, vehiculo}) => {
+export const FormActualizarVehiculos = ({onSuccess, onHide, vehiculo, toast}) => {
     
     // Registro de la data al formulario
     const { control, handleSubmit, formState: { errors }, reset } = useForm({
@@ -50,7 +50,7 @@ export const FormActualizarVehiculos = ({onSuccess, onHide, vehiculo}) => {
                     onHide();
                 }
             } else {
-                console.error('Error del servidor: ', result.message);
+                toast.current.show({ severity: 'error', summary: 'Error', detail: result.message, life: 3000})
             }
         } catch (error) {
             console.error('Error: ', error);

@@ -2,7 +2,7 @@ import { useForm, Controller } from "react-hook-form";
 import { InputText } from "primereact/inputtext";
 import { Button } from "primereact/button";
 
-export const FormCrearVehiculos = ({onSuccess, onHide}) => {
+export const FormCrearVehiculos = ({onSuccess, onHide, toast}) => {
     
     // Registro de la data al formulario
     const { control, handleSubmit, formState: { errors }, reset } = useForm({
@@ -36,7 +36,7 @@ export const FormCrearVehiculos = ({onSuccess, onHide}) => {
                     onHide();
                 }
             } else {
-                console.error('Error del servidor: ', result.message);
+                toast.current.show({ severity: 'error', summary: 'Error', detail: result.message, life: 3000 })
             }
         } catch (error) {
             console.error('Error: ', error);
