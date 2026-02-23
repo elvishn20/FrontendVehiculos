@@ -7,16 +7,18 @@ import './App.css';
 import { FormCrearVehiculos } from './components/forms/formCrearVehiculos';
 import { FormActualizarVehiculos } from './components/forms/FormActualizarVehiculos';
 import { DataVehiculos } from './components/datagrids/DataVehiculos';
+import { DataMovimientos } from './components/datagrids/DataMovimientos';
 import { useState, useRef } from 'react';
 
 function App() {
 
-  const [vistaVehiculos, setVistaVehiculos] = useState('none');
+  const [vistaActiva, setVistaActiva] = useState('vehiculos');
   const [visibleCrearVehiculo, setVisibleCrearVehiculo] = useState(false);
   const [vehiculoAEditar, setVehiculoAEditar] = useState(null);
   const [visibleActualizarVehiculo, setVisibleActualizarVehiculo] = useState(false);
-  const toast = useRef(null) 
-  const tablaRef = useRef(); // Hacemos referencia a la tabla del DataVehiculos.jsx
+  const toast = useRef(null); 
+  const tablaRef = useRef(); 
+  const tablaMovimientosRef = useRef();
 
   // Notificacion y refresh de la tabla, cuando se crea vehiculo.
   const manejarExitoInsercion = (mensajeServidor) => {
@@ -80,19 +82,20 @@ function App() {
         <ButtonGroup className="w-full flex">
           <Button 
             label="Registro de Vehículos"
-            severity="info"
+            severity={vistaActiva === 'vehiculos' ? 'info' : 'secondary'}
             className="flex-1"
-            onClick={() => setVistaVehiculos(vistaVehiculos === 'tablaVehiculos' ? 'none' : 'tablaVehiculos')}
+            onClick={() => setVistaActiva('vehiculos')}
           />  
           <Button 
             label="Entradas / Salidas"
-            severity="success"
+            severity={vistaActiva === 'movimientos' ? 'success' : 'secondary'}
             className="flex-1"
+            onClick={() => setVistaActiva('movimientos')}
           />
         </ButtonGroup>
       </div>
       <div className="mt-5 px-4">
-        {vistaVehiculos === 'tablaVehiculos' && (
+        {vistaActiva === 'vehiculos' && (
           <div className="card">
             <h2 className="text-center" style={{marginBottom: "2rem"}}>Listado de Vehículos</h2>
 
@@ -138,6 +141,23 @@ function App() {
                   onHide={() => setVisibleActualizarVehiculo(false)}
               />
             </Dialog>
+          </div>
+        )}
+        {vistaActiva === 'movimientos' && (
+          <div className='card'>
+            <h2 className='text-center' style={{marginBottom: "2rem"}}>Listado de Entradas / Salidas</h2>
+
+            {/* Botón de apertura de formulario para la creación de un movimiento */}
+            <Button 
+              label="Crear Movimiento"
+              severity="success"
+              style={{marginBottom: "2rem"}}
+            />
+
+            {/* Datagrid para la muestra de movimientos */}
+            <DataMovimientos 
+              ref={tablaMovimientosRef}
+            />
           </div>
         )}
       </div>
