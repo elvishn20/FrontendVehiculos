@@ -8,6 +8,7 @@ import { FormCrearVehiculos } from './components/forms/formCrearVehiculos';
 import { FormActualizarVehiculos } from './components/forms/FormActualizarVehiculos';
 import { DataVehiculos } from './components/datagrids/DataVehiculos';
 import { DataMovimientos } from './components/datagrids/DataMovimientos';
+import { FormCrearMovimientos } from './components/forms/FormCrearMovimientos';
 import { useState, useRef } from 'react';
 
 function App() {
@@ -16,6 +17,7 @@ function App() {
   const [visibleCrearVehiculo, setVisibleCrearVehiculo] = useState(false);
   const [vehiculoAEditar, setVehiculoAEditar] = useState(null);
   const [visibleActualizarVehiculo, setVisibleActualizarVehiculo] = useState(false);
+  const [visibleCrearMovimiento, setVisibleCrearMovimiento] = useState(false);
   const toast = useRef(null); 
   const tablaRef = useRef(); 
   const tablaMovimientosRef = useRef();
@@ -72,6 +74,17 @@ function App() {
       console.error('Error al eliminar: ', error);
     }
   }
+
+  // Notificacion y refresh de la tabla cuando se crea la entrada o salida
+  const manejarExitoMovimiento = (mensajeServidor) => {
+    toast.current.show({
+      severity: 'success',
+      summary: 'Éxito',
+      detail: mensajeServidor,
+      life: 3000
+    });
+    setVisibleCrearMovimiento(false);
+  };
 
   return (
     <>
@@ -133,7 +146,8 @@ function App() {
               header="Actualización de Vehículo"
               visible={visibleActualizarVehiculo} 
               style={{ width: '90vw', maxWidth: '450px' }} 
-              onHide={() => setVisibleActualizarVehiculo(false)}>
+              onHide={() => setVisibleActualizarVehiculo(false)}
+            >
               <FormActualizarVehiculos 
                   vehiculo={vehiculoAEditar} 
                   onSuccess={manejarExitoInsercion} 
@@ -151,6 +165,7 @@ function App() {
             <Button 
               label="Crear Movimiento"
               severity="success"
+              onClick={() => setVisibleCrearMovimiento(true)}
               style={{marginBottom: "2rem"}}
             />
 
@@ -158,6 +173,20 @@ function App() {
             <DataMovimientos 
               ref={tablaMovimientosRef}
             />
+
+            {/* Modal que muestra el formulario de entrada o salida */}
+            <Dialog
+              header="Nuevo registro de Entrada/Salida"
+              visible={visibleCrearMovimiento}
+              style={{ width: '90vw', maxWidth: '500px' }}
+              onHide={() => setVisibleCrearMovimiento(false)}
+            >
+              <FormCrearMovimientos 
+                onSuccess={() => manejarExitoMovimiento}
+                onHide={() => setVisibleCrearMovimiento(false)}
+                toast={toast}
+              />
+            </Dialog>
           </div>
         )}
       </div>

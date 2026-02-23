@@ -6,24 +6,13 @@ import { useEffect, useState, useImperativeHandle, forwardRef } from "react";
 export const DataVehiculos = forwardRef(({onEdit, onDelete}, ref) => {
     const [vehiculos, setVehiculos] = useState([]);
 
-    // Formateamos la data que se trae desde la base de datos
-    const formatoData = data => {
-        return data.map(item => ({
-            id: item.traer_vehiculos.fn_id,
-            placa: item.traer_vehiculos.fn_placa,
-            marca: item.traer_vehiculos.fn_marca,
-            modelo: item.traer_vehiculos.fn_modelo
-        }));
-    };
-
     // Manda a llamar los datos ingresados del formulario
     const fetchVehiculos = async () => {
         try {
             const response = await fetch('http://localhost:3000/lista-vehiculos');
             const datosJson = await response.json();
             if (datosJson.success) {
-                const datosFinales = formatoData(datosJson.data)
-                setVehiculos(datosFinales);
+                setVehiculos(datosJson.data);
             }
         } catch (error) {
             console.error('Error: ', error);
@@ -59,7 +48,7 @@ export const DataVehiculos = forwardRef(({onEdit, onDelete}, ref) => {
                     severity="danger" 
                     rounded 
                     outlined 
-                    onClick={() => onDelete(rowData.id)} 
+                    onClick={() => onDelete(rowData.fn_id)} 
                     tooltip="Eliminar"
                 />
             </div>
@@ -69,9 +58,9 @@ export const DataVehiculos = forwardRef(({onEdit, onDelete}, ref) => {
     return (
         <DataTable value={vehiculos} columnResizeMode="expand" resizableColumns showGridlines tableStyle={{ minWidth: '50rem' }}>
             <Column header="Id" body={(data, options) => options.rowIndex + 1}></Column>
-            <Column field="placa" header="Placa"></Column>
-            <Column field="marca" header="Marca"></Column>
-            <Column field="modelo" header="Modelo"></Column>
+            <Column field="fn_placa" header="Placa"></Column>
+            <Column field="fn_marca" header="Marca"></Column>
+            <Column field="fn_modelo" header="Modelo"></Column>
             <Column header="Operaciones" body={botonesOperaciones}></Column>
         </DataTable>
     );
