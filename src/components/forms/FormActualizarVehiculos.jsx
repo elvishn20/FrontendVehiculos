@@ -19,10 +19,10 @@ export const FormActualizarVehiculos = ({onSuccess, onHide, vehiculo, toast}) =>
     useEffect(() => {
         if (vehiculo) {
             reset({
-                pr_id: vehiculo.id,
-                pr_placa: vehiculo.placa,
-                pr_marca: vehiculo.marca,
-                pr_modelo: vehiculo.modelo
+                pr_id: vehiculo.fn_id,
+                pr_placa: vehiculo.fn_placa,
+                pr_marca: vehiculo.fn_marca,
+                pr_modelo: vehiculo.fn_modelo
             });
         };
     }, [vehiculo, reset]);
@@ -115,7 +115,7 @@ export const FormActualizarVehiculos = ({onSuccess, onHide, vehiculo, toast}) =>
                     {errors.pr_modelo && <small className="p-error">{errors.pr_modelo.message}</small>}
                 </div>
 
-                <Button type="submit" label="Editar Vehículo" icon="pi pi-check" severity="info" className="mt-2" />
+                <Button type="submit" label="Editar Vehículo" icon="pi pi-save" severity="info" className="mt-2" />
             </form>
         </div>
     );

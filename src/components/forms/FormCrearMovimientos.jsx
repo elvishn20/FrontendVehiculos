@@ -54,6 +54,8 @@ export const FormCrearMovimientos = ({onSuccess, onHide, toast}) => {
             });
 
             const result = await response.json();
+            console.log("Contenido de la data: ", data);
+            console.log("Respuesta del servidor:", result);
             if (result.success) {
                 reset();
                 if (onSuccess) {

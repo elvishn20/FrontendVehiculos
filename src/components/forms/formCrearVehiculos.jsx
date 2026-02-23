@@ -101,7 +101,7 @@ export const FormCrearVehiculos = ({onSuccess, onHide, toast}) => {
                     {errors.pr_modelo && <small className="p-error">{errors.pr_modelo.message}</small>}
                 </div>
 
-                <Button type="submit" label="Registrar Vehículo" icon="pi pi-check" severity="info" className="mt-2" />
+                <Button type="submit" label="Registrar Vehículo" icon="pi pi-save" severity="info" className="mt-2" />
             </form>
         </div>
     );

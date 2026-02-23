@@ -83,6 +83,9 @@ function App() {
       detail: mensajeServidor,
       life: 3000
     });
+    if (tablaMovimientosRef.current) {
+      tablaMovimientosRef.current.refreshData(); 
+    }
     setVisibleCrearMovimiento(false);
   };
 
@@ -182,7 +185,7 @@ function App() {
               onHide={() => setVisibleCrearMovimiento(false)}
             >
               <FormCrearMovimientos 
-                onSuccess={() => manejarExitoMovimiento}
+                onSuccess={(msg) => manejarExitoMovimiento(msg)}
                 onHide={() => setVisibleCrearMovimiento(false)}
                 toast={toast}
               />
