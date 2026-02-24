@@ -127,7 +127,10 @@ export const FormCrearMovimientos = ({onSuccess, onHide, toast}) => {
                     <Controller
                         name="pr_nombre_motorista"
                         control={control}
-                        rules={{ required: 'El nombre es obligatorio' }}
+                        rules={{ 
+                            required: 'El nombre es obligatorio',
+                            maxLength: { value: 60, message: 'Máximo 60 caracteres' } 
+                        }}
                         render={({ field }) => <InputText {...field} />}
                     />
                     {errors.pr_nombre_motorista && <small className="p-error">{errors.pr_nombre_motorista.message}</small>}
@@ -163,14 +166,16 @@ export const FormCrearMovimientos = ({onSuccess, onHide, toast}) => {
                     <Controller
                         name="pr_kilometraje"
                         control={control}
-                        rules={{ required: 'El kilometraje es obligatorio' }}
+                        rules={{ 
+                            required: 'El kilometraje es obligatorio', 
+                            max: { value: 999999.99, message: 'El valor máximo a digitar es 999,999.99' }
+                        }}
                         render={({ field }) => (
                             <InputNumber 
                                 id={field.name}
                                 value={field.value ?? null} 
                                 onChange={(e) => field.onChange(e.value)} 
                                 mode="decimal" 
-                                minFractionDigits={2} 
                                 maxFractionDigits={2} 
                                 useGrouping={false}
                                 placeholder="0.00" 

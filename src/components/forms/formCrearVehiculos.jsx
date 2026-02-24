@@ -53,11 +53,19 @@ export const FormCrearVehiculos = ({onSuccess, onHide, toast}) => {
                     <Controller
                         name="pr_placa"
                         control={control}
-                        rules={{ required: 'La placa es obligatoria', maxLength: 20 }}
+                        rules={{ 
+                            required: 'La placa es obligatoria', 
+                            maxLength: {value: 10, message: 'La placa no puede exceder los 10 caracteres'},
+                            pattern: { 
+                                value: /^([A-Z]\s*){3}([0-9]\s*){4}$/i, 
+                                message: 'Formato requerido: 3 letras y 4 números (Ej: B AA 0001 o BAA0001)' 
+                            }
+                        }}
                         render={({ field, fieldState }) => (
                             <InputText 
                                 id={field.name} 
-                                {...field} 
+                                {...field}
+                                placeholder="Ej: B AA 0001"
                                 className={fieldState.invalid ? 'p-invalid' : ''} 
                             />
                         )}
@@ -71,7 +79,10 @@ export const FormCrearVehiculos = ({onSuccess, onHide, toast}) => {
                     <Controller
                         name="pr_marca"
                         control={control}
-                        rules={{ required: 'La marca es obligatoria' }}
+                        rules={{ 
+                            required: 'La marca es obligatoria',
+                            maxLength: { value: 30, message: 'Máximo 30 caracteres' }
+                        }}
                         render={({ field, fieldState }) => (
                             <InputText 
                                 id={field.name} 
@@ -89,7 +100,10 @@ export const FormCrearVehiculos = ({onSuccess, onHide, toast}) => {
                     <Controller
                         name="pr_modelo"
                         control={control}
-                        rules={{ required: 'El modelo es obligatorio' }}
+                        rules={{ 
+                            required: 'El modelo es obligatorio',
+                            maxLength: { value: 30, message: 'Máximo 30 caracteres' }
+                        }}
                         render={({ field, fieldState }) => (
                             <InputText 
                                 id={field.name} 
