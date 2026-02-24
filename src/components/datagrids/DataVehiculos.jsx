@@ -9,7 +9,7 @@ export const DataVehiculos = forwardRef(({onEdit, onDelete}, ref) => {
     // Manda a llamar los datos ingresados del formulario
     const fetchVehiculos = async () => {
         try {
-            const response = await fetch('http://localhost:3000/lista-vehiculos');
+            const response = await fetch('https://backendvehiculos.onrender.com/lista-vehiculos');
             const datosJson = await response.json();
             if (datosJson.success) {
                 setVehiculos(datosJson.data);

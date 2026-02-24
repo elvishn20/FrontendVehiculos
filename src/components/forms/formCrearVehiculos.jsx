@@ -16,7 +16,7 @@ export const FormCrearVehiculos = ({onSuccess, onHide, toast}) => {
     // Envio de los datos al backend
     const onSubmit = async (data) => {
         try {
-            const response = await fetch('http://localhost:3000/insertar-vehiculo', {
+            const response = await fetch('https://backendvehiculos.onrender.com/insertar-vehiculo', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'

@@ -63,7 +63,7 @@ function App() {
   // Ejecuta dicha eliminacion
   const ejecutarEliminacion = async (id) => {
     try {
-      const response = await fetch(`http://localhost:3000/eliminar-vehiculo/${id}`, {
+      const response = await fetch(`https://backendvehiculos.onrender.com/eliminar-vehiculo/${id}`, {
         method: 'DELETE'
       });
       const result = await response.json();

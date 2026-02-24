@@ -25,7 +25,7 @@ export const FormCrearMovimientos = ({onSuccess, onHide, toast}) => {
     useEffect(() => {
         const obtenerVehiculos = async () => {
             try {
-                const response = await fetch('http://localhost:3000/lista-vehiculos');
+                const response = await fetch('https://backendvehiculos.onrender.com/lista-vehiculos');
                 const json = await response.json();
                 if (json.success && Array.isArray(json.data)) {
                     setVehiculos(json.data);
@@ -47,7 +47,7 @@ export const FormCrearMovimientos = ({onSuccess, onHide, toast}) => {
                 pr_fecha: data.pr_fecha.toISOString().split('T')[0], // YYYY-MM-DD
                 pr_hora: data.pr_hora.toLocaleTimeString('en-GB'), // HH:MM:SS
             };
-            const response = await fetch('http://localhost:3000/insertar-movimiento', {
+            const response = await fetch('https://backendvehiculos.onrender.com/insertar-movimiento', {
                 method: 'POST',
                 headers: {'Content-Type': 'application/json'},
                 body: JSON.stringify(payload)

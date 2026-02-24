@@ -9,7 +9,7 @@ export const DataMovimientos = forwardRef(({globalFiltro}, ref) => {
     // Manda a llamar los datos ingresados del formulario
     const fetchMovimientos = async () => {
         try {
-            const response = await fetch('http://localhost:3000/lista-movimientos');
+            const response = await fetch('https://backendvehiculos.onrender.com/lista-movimientos');
             const datosJson = await response.json();
             if (datosJson.success) {
                 setMovimientos(datosJson.data);

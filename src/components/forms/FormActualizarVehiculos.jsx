@@ -30,7 +30,7 @@ export const FormActualizarVehiculos = ({onSuccess, onHide, vehiculo, toast}) =>
     // Envio de los datos al backend
     const onSubmit = async (data) => {
         try {
-            const response = await fetch('http://localhost:3000/editar-vehiculo', {
+            const response = await fetch('https://backendvehiculos.onrender.com/editar-vehiculo', {
             method: 'PUT',
             headers: {
                 'Content-Type': 'application/json'
