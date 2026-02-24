@@ -1,16 +1,44 @@
-# React + Vite
+# Control de Vehículos - Frontend 
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Este es el frontend de una aplicación web diseñada para gestionar el registro de vehículos y el historial de sus movimientos (entradas y salidas). Construido con **React + Vite** y utilizando los componentes de **PrimeReact**.
 
-Currently, two official plugins are available:
+## Tecnologías Utilizadas
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+* **React 19** (Vite como bundler)
+* **PrimeReact** (Librería de componentes UI)
+* **PrimeIcons** (Iconografía)
+* **PrimeFlex** (Utilidades de diseño CSS)
+* **React Hook Form** (Gestión de formularios y validaciones)
 
-## React Compiler
+## Requisitos Previos
 
-The React Compiler is currently not compatible with SWC. See [this issue](https://github.com/vitejs/vite-plugin-react/issues/428) for tracking the progress.
+Asegúrate de tener instalados los siguientes elementos:
 
-## Expanding the ESLint configuration
+* **Node.js** (Versión 18 o superior recomendada)
+* **Git**
+* Un **Backend** funcional (conectado a PostgreSQL) corriendo en `http://localhost:3000`
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+## Instalación y Configuración
+
+Sigue estos pasos para clonar e instalar el proyecto localmente:
+
+1. **Clonar el repositorio:**
+   ```bash
+   git clone [https://github.com/elvishn20/FrontendVehiculos.git](https://github.com/elvishn20/FrontendVehiculos.git)
+   cd FrontendVehiculos
+
+2. **Instalación de Node.js**
+Asegúrese de tener instalado Node.js (versión 18 o superior). Puede verificarlo ejecutando node -v en su terminal.
+
+3. **Instalar Dependencias Generales**
+Para descargar e instalar todas las librerías necesarias (PrimeReact, React Hook Form, etc.), ejecute:
+
+npm install
+
+4. **Configurar el Backend**
+Este frontend está configurado para comunicarse con una API en http://localhost:3000. Asegúrese de que su servidor de Node.js esté activo para que las tablas de vehículos y movimientos carguen los datos correctamente.
+
+5. **Ejecutar la Aplicación**
+Una vez instaladas las dependencias, inicie el servidor de desarrollo:
+
+npm run dev
