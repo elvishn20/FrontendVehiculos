@@ -56,7 +56,13 @@ export const DataVehiculos = forwardRef(({onEdit, onDelete}, ref) => {
     };
 
     return (
-        <DataTable value={vehiculos} columnResizeMode="expand" resizableColumns showGridlines tableStyle={{ minWidth: '50rem' }}>
+        <DataTable 
+            value={vehiculos} 
+            columnResizeMode="expand" 
+            resizableColumns 
+            showGridlines 
+            tableStyle={{ minWidth: '50rem' }}
+        >
             <Column header="Id" body={(data, options) => options.rowIndex + 1}></Column>
             <Column field="fn_placa" header="Placa"></Column>
             <Column field="fn_marca" header="Marca"></Column>

@@ -3,6 +3,9 @@ import { Button } from 'primereact/button';
 import { Dialog } from 'primereact/dialog';
 import { Toast } from 'primereact/toast';
 import { ConfirmDialog, confirmDialog } from 'primereact/confirmdialog';
+import { InputText } from 'primereact/inputtext';
+import { InputIcon} from 'primereact/inputicon';
+import { IconField } from 'primereact/iconfield' 
 import './App.css';
 import { FormCrearVehiculos } from './components/forms/formCrearVehiculos';
 import { FormActualizarVehiculos } from './components/forms/FormActualizarVehiculos';
@@ -18,6 +21,7 @@ function App() {
   const [vehiculoAEditar, setVehiculoAEditar] = useState(null);
   const [visibleActualizarVehiculo, setVisibleActualizarVehiculo] = useState(false);
   const [visibleCrearMovimiento, setVisibleCrearMovimiento] = useState(false);
+  const [globalFiltro, setGlobalFiltro] = useState('');
   const toast = useRef(null); 
   const tablaRef = useRef(); 
   const tablaMovimientosRef = useRef();
@@ -164,17 +168,31 @@ function App() {
           <div className='card'>
             <h2 className='text-center' style={{marginBottom: "2rem"}}>Listado de Entradas / Salidas</h2>
 
-            {/* Botón de apertura de formulario para la creación de un movimiento */}
-            <Button 
-              label="Crear Movimiento"
-              severity="success"
-              onClick={() => setVisibleCrearMovimiento(true)}
-              style={{marginBottom: "2rem"}}
-            />
+            <div className='flex justify-content-between align-items-center mb-4'>
+              {/* Botón de apertura de formulario para la creación de un movimiento */}
+              <Button 
+                label="Crear Movimiento"
+                severity="success"
+                onClick={() => setVisibleCrearMovimiento(true)}
+                style={{marginBottom: "2rem"}}
+              />
+
+              {/* Barra de búsqueda para filtrar elementos en los movimientos */}
+              <IconField iconPosition="left" style={{ width: '40%'}}>
+                <InputIcon className='pi pi-search' />
+                <InputText 
+                  value={globalFiltro}
+                  onInput={(e) => setGlobalFiltro(e.target.value)}
+                  placeholder='Búsqueda por nombre de motorista, vehículos y fecha'
+                  className='w-full'
+                />
+              </IconField>
+            </div>
 
             {/* Datagrid para la muestra de movimientos */}
             <DataMovimientos 
               ref={tablaMovimientosRef}
+              globalFiltro={globalFiltro}
             />
 
             {/* Modal que muestra el formulario de entrada o salida */}

@@ -3,7 +3,7 @@ import { Column } from "primereact/column";
 import { Tag } from "primereact/tag";
 import { useState, useEffect, forwardRef, useImperativeHandle } from "react";
 
-export const DataMovimientos = forwardRef((props, ref) => {
+export const DataMovimientos = forwardRef(({globalFiltro}, ref) => {
     const [movimientos, setMovimientos] = useState([]);
 
     // Manda a llamar los datos ingresados del formulario
@@ -37,7 +37,15 @@ export const DataMovimientos = forwardRef((props, ref) => {
     };
 
     return (
-        <DataTable value={movimientos} columnResizeMode="expand" resizableColumns showGridlines tableStyle={{ minWidth: '50rem' }}>
+        <DataTable 
+            value={movimientos} 
+            columnResizeMode="expand" 
+            resizableColumns 
+            showGridlines 
+            tableStyle={{ minWidth: '50rem' }}
+            globalFilter={globalFiltro}
+            emptyMessage="No se encontraron entradas o salidas registradas"
+        >
             <Column header="Id" body={(data, options) => options.rowIndex + 1}></Column>
             <Column field="fn_placa" header="Vehiculo"></Column>
             <Column field="fn_tipo_movimiento" header="Tipo de Movimiento" body={tipoBodyTemplate}></Column>
